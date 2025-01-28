@@ -65,7 +65,7 @@ document.getElementById("agregarRima").addEventListener("click", function () {
 
         // Enviar los datos al backend (opcional)
         try {
-            const response = await fetch("http://localhost:3000/productos", {
+            const response = await fetch("http://localhost:3000/diccionario", {
                 method: "POST",
                 body: JSON.stringify({ palabra, rima }),
                 headers: {

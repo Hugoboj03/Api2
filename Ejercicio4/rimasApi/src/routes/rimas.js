@@ -1,6 +1,3 @@
-// Daniel Gaspar Candela
-
-
 import express from 'express';
 let rimas = [];
 

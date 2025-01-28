@@ -6,7 +6,7 @@ let DiccionarioDeRimas = new Map(); // Estructura para almacenar las rimas
 // Obtener las rimas del backend (si es necesario)
 async function getRimas() {
     try {
-        const resp = await fetch(`${SERVER}/rimas`);
+        const resp = await fetch(`${SERVER}/diccionario`);
         if (!resp.ok) throw new Error(`Error: ${resp.status} ${resp.statusText}`);
         const json = await resp.json();
         console.log(json);
@@ -67,7 +67,7 @@ async function agregarRima(palabra, rima) {
 
     // Actualizar el backend (si es necesario)
     try {
-        const response = await fetch(`${SERVER}/rimas`, {
+        const response = await fetch(`${SERVER}/diccionario`, {
             method: "POST",
             body: JSON.stringify({ palabra, rima }),
             headers: {
@@ -104,7 +104,7 @@ async function eliminarRima(palabra, rima) {
 
         // Actualizar el backend (si es necesario)
         try {
-            const response = await fetch(`${SERVER}/rimas`, {
+            const response = await fetch(`${SERVER}/diccionario`, {
                 method: "DELETE",
                 body: JSON.stringify({ palabra, rima }),
                 headers: {
