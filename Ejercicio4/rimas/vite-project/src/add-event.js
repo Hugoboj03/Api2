@@ -63,7 +63,7 @@ document.getElementById("agregarRima").addEventListener("click", function () {
 
         console.log(DiccionarioDeRimas); // Verificar en consola
 
-        // Enviar los datos al backend (opcional)
+        // Enviar los datos al backend
         try {
             const response = await fetch("http://localhost:3000/diccionario", {
                 method: "POST",
@@ -85,4 +85,66 @@ document.getElementById("agregarRima").addEventListener("click", function () {
 
         form.reset(); // Limpiar el formulario
     });
+});
+
+document.getElementById("eliminarPalabra").addEventListener("click", function () {
+
+    const contenedor = document.getElementById("contenedor");
+    // Limpiamos el contenedor y configuramos el formulario
+    contenedor.innerHTML = "";
+    let form = document.createElement("form");
+    form.id = "formEliminarRima";
+    let labelPalabra = document.createElement("label");
+    labelPalabra.textContent = "Palabra: ";
+    let inputPalabra = document.createElement("input");
+    inputPalabra.type = "text";
+    inputPalabra.id = "inputPalabra";
+    inputPalabra.name = "palabra";
+    let botonEliminar = document.createElement("button");
+    botonEliminar.type = "submit";
+    botonEliminar.textContent = "Eliminar";
+    form.appendChild(labelPalabra);
+    form.appendChild(inputPalabra);
+    form.appendChild(botonEliminar);
+    contenedor.appendChild(form);
+    // Evento submit para el formulario
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault(); // Evitar comportamiento por defecto
+        const palabra = inputPalabra.value.trim();
+        if (!palabra) {
+            alert("Por favor, ingrese una palabra.");
+            return;
+        }
+        // Actualizar el diccionario de rimas en el frontend
+        if (!DiccionarioDeRimas.has(palabra)) {
+            alert("La palabra no existe en el diccionario.");
+            return;
+        }
+        // Enviar los datos al backend
+        try {
+            let ruta = "http://localhost:3000/diccionario/palabra/"+palabra;
+            const response = await fetch(ruta, {
+                method: "DELETE",
+                body: JSON.stringify({ palabra }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            if (response.ok) {
+                alert("Rima eliminada correctamente en el backend.");
+                DiccionarioDeRimas.delete(palabra);
+                console.log(DiccionarioDeRimas); // Verificar en consola
+            } else {
+                alert("Error al eliminar la rima en el backend.");
+
+            }
+
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+            alert("No se pudo conectar con el servidor.");
+        }
+    });
+
+
+
 });
